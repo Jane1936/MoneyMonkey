@@ -1,0 +1,51 @@
+<view class="container">
+  <view class="card">
+    <view class="title">新增投资记录</view>
+
+    <view class="row">
+      <text class="label">投资品类</text>
+      <picker class="picker" mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view>{{typeOptions[typeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <text class="label">买入时间</text>
+      <picker class="picker" mode="date" value="{{form.buyTime}}" bindchange="onBuyDateChange">
+        <view>{{form.buyTime}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <text class="label">卖出时间</text>
+      <picker class="picker" mode="date" value="{{form.sellTime}}" bindchange="onSellDateChange">
+        <view>{{form.sellTime}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <text class="label">买入金额</text>
+      <input class="input" type="digit" value="{{form.buyAmount}}" bindinput="onBuyAmountInput" placeholder="请输入买入金额" />
+    </view>
+
+    <view class="row">
+      <text class="label">卖出金额</text>
+      <input class="input" type="digit" value="{{form.sellAmount}}" bindinput="onSellAmountInput" placeholder="请输入卖出金额" />
+    </view>
+
+    <button class="primary-btn" bindtap="onAddRecord">保存记录</button>
+    <text class="warn" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+  </view>
+
+  <view class="card">
+    <view class="sub-title">记录列表（{{transactions.length}}）</view>
+    <view wx:if="{{!transactions.length}}">暂无记录，请先新增投资记录。</view>
+    <view wx:for="{{transactions}}" wx:key="id" class="list-item">
+      <view>{{item.assetType}}｜买入：{{item.buyTime}}｜卖出：{{item.tradeTime}}</view>
+      <view>买入金额：¥{{item.buyAmount}}，卖出金额：¥{{item.sellAmount}}</view>
+      <view class="{{item.returnRate >= 0 ? 'good' : 'bad'}}">收益率：{{item.returnRate}}%</view>
+    </view>
+  </view>
+
+  <button bindtap="toReport">查看月报 / 年报分析</button>
+</view>

@@ -1,44 +1,27 @@
 <view class="container">
-  <view class="ios-card">
+  <view class="card">
     <view class="title">分析报表</view>
     <view wx:if="{{!hasData}}">暂无交易数据，请先在首页录入交易。</view>
   </view>
 
   <view wx:if="{{hasData}}">
-    <view class="ios-card">
-      <view class="sub-title">收益率曲线</view>
-      <view class="segment">
-        <view
-          wx:for="{{granularityOptions}}"
-          wx:key="*this"
-          class="segment-item {{activeGranularity===item ? 'active' : ''}}"
-          data-value="{{item}}"
-          bindtap="onGranularityTap"
-        >
-          {{granularityLabelMap[item]}}
-        </view>
-      </view>
-      <view class="chart-wrap">
-        <canvas canvas-id="curveCanvas" class="chart-canvas"></canvas>
-      </view>
-      <view wx:for="{{curveData}}" wx:key="period" class="list-item">
-        <view>{{item.period}}：{{item.avgReturnRate}}%</view>
-      </view>
-    </view>
-
-    <view class="ios-card">
+    <view class="card">
       <view class="sub-title">月报分析</view>
       <view wx:for="{{monthly}}" wx:key="period" class="list-item">
-        <view>{{item.period}}｜交易笔数：{{item.count}}｜平均收益率：{{item.avgReturnRate.toFixed(2)}}%</view>
-        <view wx:for="{{item.byCurrency}}" wx:key="currency">{{item.currency}}：买入 {{item.buyAmount.toFixed(2)}}，卖出 {{item.sellAmount.toFixed(2)}}，收益 {{item.realizedProfit.toFixed(2)}}</view>
+        <view>{{item.period}}｜交易笔数：{{item.count}}</view>
+        <view>买入总额：¥{{item.buyAmount.toFixed(2)}}，卖出总额：¥{{item.sellAmount.toFixed(2)}}</view>
+        <view class="{{item.realizedProfit >= 0 ? 'good' : 'bad'}}">已实现收益：¥{{item.realizedProfit.toFixed(2)}}，平均收益率：{{item.avgReturnRate.toFixed(2)}}%</view>
+        <view wx:for="{{item.byType}}" wx:key="type">· {{item.type}}：收益 ¥{{item.realizedProfit.toFixed(2)}}，均值 {{item.avgReturnRate.toFixed(2)}}%</view>
       </view>
     </view>
 
-    <view class="ios-card">
+    <view class="card">
       <view class="sub-title">年报分析</view>
       <view wx:for="{{yearly}}" wx:key="period" class="list-item">
-        <view>{{item.period}}｜交易笔数：{{item.count}}｜平均收益率：{{item.avgReturnRate.toFixed(2)}}%</view>
-        <view wx:for="{{item.byCurrency}}" wx:key="currency">{{item.currency}}：买入 {{item.buyAmount.toFixed(2)}}，卖出 {{item.sellAmount.toFixed(2)}}，收益 {{item.realizedProfit.toFixed(2)}}</view>
+        <view>{{item.period}}｜交易笔数：{{item.count}}</view>
+        <view>买入总额：¥{{item.buyAmount.toFixed(2)}}，卖出总额：¥{{item.sellAmount.toFixed(2)}}</view>
+        <view class="{{item.realizedProfit >= 0 ? 'good' : 'bad'}}">已实现收益：¥{{item.realizedProfit.toFixed(2)}}，平均收益率：{{item.avgReturnRate.toFixed(2)}}%</view>
+        <view wx:for="{{item.byType}}" wx:key="type">· {{item.type}}：收益 ¥{{item.realizedProfit.toFixed(2)}}，均值 {{item.avgReturnRate.toFixed(2)}}%</view>
       </view>
     </view>
   </view>

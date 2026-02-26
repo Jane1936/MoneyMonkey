@@ -1,4 +1,4 @@
-const { TYPE_OPTIONS, CURRENCY_OPTIONS } = require('../../utils/report');
+const { TYPE_OPTIONS } = require('../../utils/report');
 
 const STORAGE_KEY = 'moneyMonkeyTransactions';
 
@@ -12,13 +12,9 @@ function formatDate(date = new Date()) {
 Page({
   data: {
     typeOptions: TYPE_OPTIONS,
-    currencyOptions: CURRENCY_OPTIONS,
     typeIndex: 0,
-    buyCurrencyIndex: 0,
-    sellCurrencyIndex: 0,
     errorMsg: '',
     form: {
-      stockName: '',
       buyTime: formatDate(),
       sellTime: formatDate(),
       buyAmount: '',
@@ -40,18 +36,6 @@ Page({
     this.setData({ typeIndex: Number(e.detail.value) });
   },
 
-  onBuyCurrencyChange(e) {
-    this.setData({ buyCurrencyIndex: Number(e.detail.value) });
-  },
-
-  onSellCurrencyChange(e) {
-    this.setData({ sellCurrencyIndex: Number(e.detail.value) });
-  },
-
-  onStockNameInput(e) {
-    this.setData({ 'form.stockName': e.detail.value });
-  },
-
   onBuyDateChange(e) {
     this.setData({ 'form.buyTime': e.detail.value });
   },
@@ -69,23 +53,9 @@ Page({
   },
 
   onAddRecord() {
-    const {
-      typeOptions,
-      currencyOptions,
-      typeIndex,
-      buyCurrencyIndex,
-      sellCurrencyIndex,
-      form,
-      transactions
-    } = this.data;
-
+    const { typeOptions, typeIndex, form, transactions } = this.data;
     const buyAmount = Number(form.buyAmount);
     const sellAmount = Number(form.sellAmount);
-
-    if (!form.stockName.trim()) {
-      this.setData({ errorMsg: '请填写具体投资名称，例如：贵州茅台 / Apple / BTC。' });
-      return;
-    }
 
     if (!buyAmount || !sellAmount) {
       this.setData({ errorMsg: '买入金额和卖出金额必须大于 0。' });
@@ -101,13 +71,10 @@ Page({
     const newRecord = {
       id: `${Date.now()}`,
       assetType: typeOptions[typeIndex],
-      stockName: form.stockName.trim(),
       buyTime: form.buyTime,
       tradeTime: form.sellTime,
       buyAmount: buyAmount.toFixed(2),
       sellAmount: sellAmount.toFixed(2),
-      buyCurrency: currencyOptions[buyCurrencyIndex],
-      sellCurrency: currencyOptions[sellCurrencyIndex],
       returnRate
     };
 
@@ -119,7 +86,6 @@ Page({
       errorMsg: '',
       form: {
         ...form,
-        stockName: '',
         buyAmount: '',
         sellAmount: ''
       }

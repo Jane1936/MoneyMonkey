@@ -1,3 +1,9 @@
 {
-  "rules": []
+  "desc": "MoneyMonkey sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
 }

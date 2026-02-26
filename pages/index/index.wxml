@@ -1,0 +1,67 @@
+<view class="container">
+  <view class="card ios-card">
+    <view class="title">新增投资记录</view>
+
+    <view class="row">
+      <text class="label">投资品类</text>
+      <picker class="picker" mode="selector" range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker-content">{{typeOptions[typeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <text class="label">具体名称</text>
+      <input class="input" value="{{form.stockName}}" bindinput="onStockNameInput" placeholder="如：腾讯控股 / Apple / 比特币" />
+    </view>
+
+    <view class="row">
+      <text class="label">买入时间</text>
+      <picker class="picker" mode="date" value="{{form.buyTime}}" bindchange="onBuyDateChange">
+        <view class="picker-content">{{form.buyTime}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <text class="label">卖出时间</text>
+      <picker class="picker" mode="date" value="{{form.sellTime}}" bindchange="onSellDateChange">
+        <view class="picker-content">{{form.sellTime}}</view>
+      </picker>
+    </view>
+
+    <view class="row">
+      <text class="label">买入金额</text>
+      <view class="inline-row">
+        <input class="input flex-1" type="digit" value="{{form.buyAmount}}" bindinput="onBuyAmountInput" placeholder="请输入买入金额" />
+        <picker class="picker currency-picker" mode="selector" range="{{currencyOptions}}" value="{{buyCurrencyIndex}}" bindchange="onBuyCurrencyChange">
+          <view class="picker-content">{{currencyOptions[buyCurrencyIndex]}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="row">
+      <text class="label">卖出金额</text>
+      <view class="inline-row">
+        <input class="input flex-1" type="digit" value="{{form.sellAmount}}" bindinput="onSellAmountInput" placeholder="请输入卖出金额" />
+        <picker class="picker currency-picker" mode="selector" range="{{currencyOptions}}" value="{{sellCurrencyIndex}}" bindchange="onSellCurrencyChange">
+          <view class="picker-content">{{currencyOptions[sellCurrencyIndex]}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <button class="primary-btn" bindtap="onAddRecord">保存记录</button>
+    <text class="warn" wx:if="{{errorMsg}}">{{errorMsg}}</text>
+  </view>
+
+  <view class="card ios-card">
+    <view class="sub-title">记录列表（{{transactions.length}}）</view>
+    <view wx:if="{{!transactions.length}}">暂无记录，请先新增投资记录。</view>
+    <view wx:for="{{transactions}}" wx:key="id" class="list-item">
+      <view>{{item.assetType}} · {{item.stockName}}</view>
+      <view>买入：{{item.buyTime}} {{item.buyCurrency}} {{item.buyAmount}}</view>
+      <view>卖出：{{item.tradeTime}} {{item.sellCurrency}} {{item.sellAmount}}</view>
+      <view class="{{item.returnRate >= 0 ? 'good' : 'bad'}}">收益率：{{item.returnRate}}%</view>
+    </view>
+  </view>
+
+  <button class="ghost-btn" bindtap="toReport">查看月报 / 年报 / 收益率曲线</button>
+</view>

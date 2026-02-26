@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/report/report"
+  ],
+  "window": {
+    "navigationBarTitleText": "投资理财记录",
+    "navigationBarBackgroundColor": "#1f2937",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f3f4f6"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
